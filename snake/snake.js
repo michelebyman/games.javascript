@@ -7,10 +7,10 @@ const box = 32;
 // load images
 
 const ground = new Image();
-ground.src = "file:///Users/michelebyman/Documents/jQuery/spel/snake/ground.png";
+ground.src = "./ground.png";
 
 const foodImg = new Image();
-foodImg.src = "file:///Users/michelebyman/Documents/jQuery/spel/snake/food.png";
+foodImg.src = "./food.png";
 
 // create the snake
 

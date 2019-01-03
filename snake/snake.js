@@ -93,10 +93,10 @@ function draw() {
   if (snakeX == food.x && snakeY == food.y) {
     score++;
     //level går upp om man äter fem frukter och hastigheten ökar
-    if (score % 2 == 0) {
+    if (score % 3 == 0) {
       levelCounter++;
     }
-    if (score % 2 == 0 && timing !== 50) {
+    if (score % 3 == 0 && timing !== 50) {
       timing = (timing - 50);
       speedCounter++;
     }
@@ -121,14 +121,14 @@ function draw() {
   // game over
 
   if (snakeX < box || snakeX > 17 * box || snakeY < 3 * box || snakeY > 17 * box || collision(newHead, snake)) {
-    clearTimeout(game);
+    return;
   }
 
   snake.unshift(newHead);
 
   // score, level and speed
 
-  ctx.fillStyle = "yellow";
+  ctx.fillStyle = "wh";
   ctx.font = "45px Changa one";
   ctx.fillText(score, 2 * box, 1.6 * box);
 

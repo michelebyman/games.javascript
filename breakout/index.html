@@ -3,16 +3,33 @@
 <head>
     <meta charset="utf-8" />
     <title>BREAKOUT</title>
+
     <style>
+
     	* { padding: 0; margin: 0; }
-    	canvas { background-image: url("background.jpg"); ;display: block; margin: 0 auto; }
+    	canvas { background-image: url("pinja.jpg"); object-fit: cover; ;display: block; margin: 0 auto; }
+
+      .stars {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      }
+      .rating {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
     </style>
+
 </head>
+
 <body>
 
-<canvas id="myCanvas" width="1000" height="700"></canvas>
+  <div class="rating"></div>
+  <div class="stars"></div>
 
-  <script src="js.js"></script>
+  <canvas id="myCanvas" width="1000" height="700"></canvas>
 
+<script src="js.js"></script>
 </body>
 </html>

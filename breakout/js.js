@@ -65,7 +65,7 @@ var paddleHeight = 12;
 var paddleWidth = 110;
 var paddleX = (canvas.width-paddleWidth)/2;
 
-//Sparar värden för paddeln
+//Sparar värden för hur paddeln ska styras
 var rightPressed = false;
 var leftPressed = false;
 
@@ -78,18 +78,14 @@ var brickPadding = 10;
 var brickOffsetTop = 50;
 var brickOffsetLeft = 10;
 
-//räknar poängen
-var score = 0;
-
 //Omdömme av spelet
 var rate;
 
-// För att skriva ut namn och att det bara sker en gång
+// Kollar om en eventListener har blivit aktiverad för att skriva ut namn och att det bara sker en gång
 var hasPrinted = false;
 
-// Sparar en färg sen används den för en random färg
+// Sparar en färg sen används den för en random färg på olika ställen.
 var randomColor;
-
 
 // Året nu
 var date = new Date();
@@ -164,12 +160,15 @@ function collisionDetection() {
                 if(x > b.x && x < b.x + brickWidth && y - ballRadius > b.y && y - ballRadius < b.y + brickHeight) {
                     dy = -dy;
                     b.status = 0;
-                    score++;
+                    score.push("bricks");
+                    console.log(score);
+                    console.log(score.length);
                     randomColor = getRandomColor();
                     if(score == brickRowCount * brickColumnCount) {
-                      alert("YOU WIN, CONGRATULATIONS! YOUR SCORE: " + score);
+                      alert("YOU WIN, CONGRATULATIONS! YOUR SCORE: " + score.length);
                       // stop funktion
                       myStopFunction(interval);
+                      checkScore();
                       //Ratar spelet och sparar i en variabel
                       rate = prompt("Rate this game, 1-5 Stars");
                       //skapar en array och använder en array-metod för att pusha rating.
@@ -178,6 +177,7 @@ function collisionDetection() {
                       console.log(gameRate);
                       innerStyle.style.visibility = "hidden";
                       rateGame(rate);
+                      alert(goodBye(playerOne[2][0]));
                       //pausar och laddar om sidan efter 5sek.
                       setTimeout(location.reload.bind(location), 5000);
                     }
@@ -211,14 +211,16 @@ function collisionDetectionTwo() {
       lives--;
       console.log(lives);
       if (lives == 0) {
-        alert("GAME OVER You scored: " + score);
+        alert("GAME OVER You scored: " + score.length);
         myStopFunction(interval);
+        checkScore();
         var rate = prompt("Rate this game, 1-5 Stars");
         var gameRate = [];
         gameRate.push(rate);
         console.log(gameRate);
         innerStyle.style.visibility = "hidden";
         rateGame(rate);
+        alert(goodBye(playerOne[2][0]));
         setTimeout(location.reload.bind(location), 5000);
       } else {
         x = canvas.width / 2;
@@ -232,12 +234,12 @@ function collisionDetectionTwo() {
 }
 
 function controller() {
-//Styr paddeln med en astighet av 7px.
-if (rightPressed && paddleX < canvas.width - paddleWidth) {
-  paddleX += 7;
-} else if (leftPressed && paddleX > 0) {
-  paddleX -= 7;
-}
+  //Styr paddeln med en astighet av 7px.
+  if (rightPressed && paddleX < canvas.width - paddleWidth) {
+    paddleX += 7;
+  } else if (leftPressed && paddleX > 0) {
+    paddleX -= 7;
+  }
 }
 
 function ballSpeed() {
@@ -250,6 +252,7 @@ function ballSpeed() {
 
 /************Övriga funktioner**********************/
 
+/*Funktion med switch sats som kollar rating från spelaren som sedan kallar på två andra funktioner som skriver ut meddelande + bilder.*/
 function rateGame(rate) {
   switch (rate) {
     case "1":
@@ -275,7 +278,7 @@ function rateGame(rate) {
   }
 }
 
-
+/*Funktion som skriver ut spelarens namn och ålder med If sats som kollar om det är true eller false för att sedam plocka bort eventListener så den inte skriver ut flera ggr.*/
 function insert() {
   if(!hasPrinted){
     var player = document.createElement("p");
@@ -341,10 +344,9 @@ function stars(antalGgr) {
   for (var i = 0; i < antalGgr; i++) {
     var picture = document.createElement("img");
     picture.setAttribute("src", "stars.png");
-    picture.setAttribute("width", "152");
-    picture.setAttribute("height", "114");
+    picture.setAttribute("width", "76");
+    picture.setAttribute("height", "57");
     picture.setAttribute("alt", "Star that is rating the game");
-    picture.style.alignContent = "space-between";
     picture.style.visibility = "visibility";
     divFromHtml.appendChild(picture);
   }
@@ -354,11 +356,25 @@ function stars(antalGgr) {
 function thankYou() {
   var thankYou = document.createElement("h2");
     thankYou.setAttribute("class", "rating");
-    thankYou.style.fontSize = "50px";
-    thankYou.style.textAlign = "center";
+    thankYou.style.fontSize = "30px";
     thankYou.textContent = "Thank You for Rating " + playerOne[0];
     saveDiv.appendChild(thankYou);
 }
+
+// Funktion som tar emot ett objekt som ligger i en 2d Array som sedan skriver ett tack meddelande till spelaren.
+function goodBye(obj) {
+  var goodBye = obj.coDeveloper;
+  var thanks = " And he wants to thank you for playing and wish to see you soon again!";
+  return goodBye + thanks;
+}
+
+// Funktion med forEach-loop som checkar scoren en gång till.
+function checkScore() {
+  score.forEach(function(element) {
+    console.log(element);
+  });
+}
+
 
 /********************************FUNKTIONER SLUTAR HÄR*********************/
 
@@ -389,7 +405,7 @@ var drawText = {
   writeScore: function() {
       ctx.font = "36px Arial";
       ctx.fillStyle = "purple";
-      ctx.fillText("Score: "+score, 150, 40);
+      ctx.fillText("Score: "+score.length, 150, 40);
   }
 };
 
@@ -408,6 +424,10 @@ var drawlives = {
 * ARRAYS MED 2D ARRAY- METODER & 2D ARRAYER MED OBJEKT & LOOPAR
 */
 
+//räknar poängen i en array ist för en variable,
+var score = [];
+
+
 // En 2d array med ett objekt
 var playerOne = [
   [],
@@ -415,7 +435,6 @@ var playerOne = [
   [{
   coDeveloper: "Michele Byman was one of the main developer for this game",
   }],
-
 ];
 
 // Spelarens namn och ålder pushas in i de tommar arraysen
@@ -433,6 +452,8 @@ console.log(Object.keys(playerOne[2][0])[0]);
 var lives = [];
 console.log(lives);
 
+
+
 //en loop som kollar om liven är mellan 1 och 3 och sedan pushar liven med en array metod & for-loop
 while (checkLives != 1 || checkLives != 2 || checkLives != 3) {
   if (checkLives == 1 || checkLives == 2 || checkLives == 3 ) {
@@ -442,7 +463,7 @@ while (checkLives != 1 || checkLives != 2 || checkLives != 3) {
     }
     break;
   } else {
-  checkLives  = prompt("How many lives do you want to start with? (1-3)");
+    checkLives  = prompt("How many lives do you want to start with? (1-3)");
   }
 }
 console.log(lives);

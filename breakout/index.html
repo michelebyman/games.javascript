@@ -1,29 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>BREAKOUT</title>
 
     <style>
+* {
+padding: 0; margin: 0;
+}
 
-    	* { padding: 0; margin: 0; }
-    	canvas { background-image: url("pinja.jpg"); object-fit: cover; ;display: block; margin: 0 auto; }
+canvas {
+  background-image: url("pinja.jpg");
+  display: block;
+  margin: 0 auto;
+  position: relative;
+}
 
-      .stars {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      }
-      .rating {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
+.stars {
+  width: 100%;
+  position: absolute;
+  bottom: 250px;
+  left: 380px;
+  z-index: 5;
+}
+
+.rating {
+  width: 100%;
+  position: absolute;
+  bottom: 170px;
+  left: 200px;
+  z-index: 3;
+}
+
     </style>
 
 </head>
 
-<body>
+<body class="body">
 
   <div class="rating"></div>
   <div class="stars"></div>

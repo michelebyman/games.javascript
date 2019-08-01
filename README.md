@@ -1,1 +1,1 @@
-# games.javascript.github.io
+# games.javascript
